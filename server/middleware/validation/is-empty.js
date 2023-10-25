@@ -1,4 +1,5 @@
 const isEmpty = async (value) => {
+  console.log("Is empty folder",Object.property(value) );
   return (
     value === undefined ||
     value === null ||

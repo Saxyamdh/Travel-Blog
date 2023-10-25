@@ -44,27 +44,29 @@ UserSchema.statics.Register = async function (
   email,
   password
 ) {
+
   const exists = await this.findOne({ email, userName });
-
-  const IsEmpty = await isEmpty({FirstName,
-    LastName,
-    userName,
-    email,
-    password
-  })
-
-  if(!IsEmpty){
-    throw Error("Fill all the required details")
-  }
 
   if (exists) {
     throw Error("Email already in use");
   }
 
+  // const IsEmpty = await isEmpty({
+  //   FirstName,
+  //   LastName,
+  //   userName,
+  //   email,
+  //   password,
+  // });
+  // console.log("Yeta", IsEmpty);
+  // if (IsEmpty) {
+  //   throw Error("Fill all the required details");
+  // }
+
   //default value is 10 and the higher the number the longer it takes for the user to sign in
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  
+
   const user = await this.create({
     FirstName,
     LastName,
@@ -72,16 +74,21 @@ UserSchema.statics.Register = async function (
     email,
     password: hash,
   });
-  
+
   return user;
 };
 
 UserSchema.methods.generateAuthToklen = function () {
-  const token = jwt.sign({ _id: this.id }, process.env.JWTPRIVATEKEY, {
-    expiresIn: "7d",
-  });
-  console.log("JWT token: ",token);
-  return token;
+  try{
+    const token = jwt.sign({ _id: this.id }, process.env.JWTPRIVATEKEY, {
+      expiresIn: "7d",
+    });
+    console.log("JWT token: ", token);
+    return token;
+  }catch(err){
+    console.log(err)
+    throw Error ("Error message",err)
+  }
 };
 
 const User = mongoose.model("users", UserSchema);
