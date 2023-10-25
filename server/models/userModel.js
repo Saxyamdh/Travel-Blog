@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const Validator = require("validator");
 const isEmpty = require("../middleware/validation/is-empty");
 
-dotenv.config({ path: "server/config.env" });
+dotenv.config({ path: "./../config.env" });
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
