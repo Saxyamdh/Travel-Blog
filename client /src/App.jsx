@@ -3,8 +3,6 @@ import { HomePage } from "./pages/Home"
 
 function App() {
 
-
-
   return (
     <BrowserRouter>
       <Routes>

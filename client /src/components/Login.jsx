@@ -3,10 +3,11 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import '../assets/css/login.css'
 import { Icon } from '@iconify/react';
+import { Auth } from "../hooks/AuthHooks";
 
 export const Login = (props) => {
   const [isOn, setIsOn] = useState(true);
-
+  const { error,Login } = Auth()
   const [input, setInput] = useState({
     email: "",
     password: ""
@@ -23,8 +24,9 @@ export const Login = (props) => {
 
   const handleSubmit = async (e) => {
       e.preventDefault()
-      alert("Form Submitted")
-      props.recievedState(false)
+      // alert("Form Submitted")
+      await Login(input)
+      // props.recievedState(false)
   }
 
   return (
@@ -41,7 +43,7 @@ export const Login = (props) => {
               <label className="emailBarLogin">
                 Email
                 <input 
-                type="text" 
+                type="email" 
                 placeholder="email@gmail.com"
                 name="email"
                 value={input.name}
