@@ -16,7 +16,8 @@ export const Auth = () => {
                 email:input.email,
                 password:input.password
             })
-            console.log(response)
+            const {data} =response
+            console.log(data.UserName)
         }catch (error){
             console.log("Error",error)
             setError(error)

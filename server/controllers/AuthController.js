@@ -28,9 +28,9 @@ const LogIn = async (req, res) => {
   console.log("Login  Request")
   try {
     const user = await User.LogIn(email, password);
-    const UserNmae = user.userName;
+    const UserName = user.userName;
     const token = await user.generateAuthToken(user._id);
-    res.status(200).json({ UserNmae, token });
+    res.status(200).json({ UserName, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
