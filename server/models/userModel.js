@@ -89,6 +89,24 @@ UserSchema.methods.generateAuthToken = async function () {
   }
 };
 
+UserSchema.statics.LogIn = async function ( email, password ) {
+
+  const user = await this.findOne({ email });
+
+  if (!user) {
+    throw Error("No users registered with the email");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
+
+  if(!match){
+    throw Error ("Invalid login credentials")
+  }
+
+  return user
+
+};
+
 const User = mongoose.model("users", UserSchema);
 
 module.exports = User;
