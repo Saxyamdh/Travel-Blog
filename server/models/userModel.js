@@ -44,7 +44,6 @@ UserSchema.statics.Register = async function (
   email,
   password
 ) {
-
   const exists = await this.findOne({ email, userName });
 
   if (exists) {
@@ -78,16 +77,15 @@ UserSchema.statics.Register = async function (
   return user;
 };
 
-UserSchema.methods.generateAuthToklen = function () {
-  try{
+UserSchema.methods.generateAuthToken = async function () {
+  try {
     const token = jwt.sign({ _id: this.id }, process.env.JWTPRIVATEKEY, {
       expiresIn: "7d",
     });
-    console.log("JWT token: ", token);
     return token;
-  }catch(err){
-    console.log(err)
-    throw Error ("Error message",err)
+  } catch (err) {
+    console.log(err);
+    throw Error("Error message", err);
   }
 };
 
