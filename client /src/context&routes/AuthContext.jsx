@@ -1,25 +1,25 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext,  useEffect, useReducer } from "react";
 
 
 let initialState = JSON.parse(localStorage.getItem("authState")) || {
-    userEmail: null,
-    userName: null
+    UserName: null,
+    token: null
 }
 
-const AuthContext = createContext()
+export const AuthContext = createContext(initialState)
 
 
-export const useAuth = () => useContext(AuthContext)
+
 
 export const authReducer = (state,action) => {
     switch(action.type){
         case 'LOGIN' :
-            return {user: action.payload}
+            return  action.payload
         case 'LOGOUT':
-            return { userEmail: null, userName: null}, initialState = {
-                userEmail: null,
-                userName: null
+            return  initialState = {
+                userName: null,
+                token:null
             }
         default :
         return state
@@ -27,13 +27,17 @@ export const authReducer = (state,action) => {
 
 }
 
+
 // eslint-disable-next-line react/prop-types
 export const AuthConTextProvider = ( {children} ) => {
     const [ state,dispatch ] = useReducer(authReducer,initialState)
+    // const {user} =state
+    // const userName = user.UserName
+    console.log("Auth COntext: ",state)
 
 
     useEffect(() => {
-        localStorage.setItem(JSON.stringify(state))
+        localStorage.setItem("authState",JSON.stringify(state))
     },[state])
 
 

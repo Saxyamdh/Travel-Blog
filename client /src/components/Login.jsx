@@ -7,7 +7,7 @@ import { Auth } from "../hooks/AuthHooks";
 
 export const Login = (props) => {
   const [isOn, setIsOn] = useState(true);
-  const { error,Login } = Auth()
+  const { Login } = Auth()
   const [input, setInput] = useState({
     email: "",
     password: ""
@@ -26,7 +26,7 @@ export const Login = (props) => {
       e.preventDefault()
       // alert("Form Submitted")
       await Login(input)
-      // props.recievedState(false)
+      props.recievedState(false)
   }
 
   return (

@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useContext, useState } from "react"
-import { useAuth } from "../context&routes/AuthContext"
+import { AuthContext } from "../context&routes/AuthContext"
 import axios from 'axios'
+import { json } from "react-router-dom"
+
 
 
 export const Auth = () => {
     const [error,setError] = useState(null)
-    // const { dispatch } = useContext(useAuth)
+    const { dispatch } = useContext(AuthContext)
 
     const Login = async (input) => {
         setError(null)
@@ -16,8 +18,11 @@ export const Auth = () => {
                 email:input.email,
                 password:input.password
             })
-            const {data} =response
-            console.log(data.UserName)
+            if(response.status === 200){
+                const {data} =response
+                dispatch({type: "LOGIN", payload:data})
+            }
+            
         }catch (error){
             console.log("Error",error)
             setError(error)
@@ -36,12 +41,22 @@ export const Auth = () => {
                 userName:input.userName,
                 password:input.password
             })
+            if(response.status === 200){
+                const {data} =response
+                dispatch({type: "LOGIN", payload:data})
+            }
         }catch (error){
             console.log(error)
             setError(error)
         }
     }
 
-    return {error,Login}
+
+
+    const LogOut = async () => {
+        dispatch({type: "LOGOUT"})
+    }
+
+    return {error,Login,LogOut}
 
 }
