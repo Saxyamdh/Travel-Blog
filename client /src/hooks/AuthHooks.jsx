@@ -21,6 +21,7 @@ export const Auth = () => {
             if(response.status === 200){
                 const {data} =response
                 dispatch({type: "LOGIN", payload:data})
+                window.location.reload()
             }
             
         }catch (error){
@@ -57,6 +58,6 @@ export const Auth = () => {
         dispatch({type: "LOGOUT"})
     }
 
-    return {error,Login,LogOut}
+    return {error,Login,LogOut,Register}
 
 }

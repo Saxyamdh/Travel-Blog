@@ -77,6 +77,7 @@ UserSchema.statics.Register = async function (
   return user;
 };
 
+//generating jwt token
 UserSchema.methods.generateAuthToken = async function () {
   try {
     const token = jwt.sign({ _id: this.id }, process.env.JWTPRIVATEKEY, {
@@ -89,8 +90,8 @@ UserSchema.methods.generateAuthToken = async function () {
   }
 };
 
-UserSchema.statics.LogIn = async function ( email, password ) {
-
+//Login schema
+UserSchema.statics.LogIn = async function (email, password) {
   const user = await this.findOne({ email });
 
   if (!user) {
@@ -99,12 +100,11 @@ UserSchema.statics.LogIn = async function ( email, password ) {
 
   const match = await bcrypt.compare(password, user.password);
 
-  if(!match){
-    throw Error ("Invalid login credentials")
+  if (!match) {
+    throw Error("Invalid login credentials");
   }
 
-  return user
-
+  return user;
 };
 
 const User = mongoose.model("users", UserSchema);

@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 dotenv.config({ path: "config.env" });
-app.options('*', cors())
+app.options("*", cors());
 app.use(morgan("combined"));
 
 app.use(
@@ -16,7 +16,7 @@ app.use(
     origin: process.env.ORIGIN,
     methods: process.env.METHODS,
     credentials: true,
-    allowedHeaders: ['X-Requested-With', 'content-type'],
+    allowedHeaders: ["X-Requested-With", "content-type"],
   })
 );
 
