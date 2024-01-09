@@ -22,9 +22,6 @@ app.use(
 
 app.use(bodyParser.json());
 
-//cors
-
-//routes
 app.use("/", registerRoute);
 
 module.exports = app;

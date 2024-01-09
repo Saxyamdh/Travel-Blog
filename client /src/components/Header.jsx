@@ -7,6 +7,7 @@ import Logo from '../assets/images/Logo.png'
 import { Icon } from '@iconify/react';
 import { AuthContext } from "../context&routes/AuthContext";
 import '../assets/css/login.css'
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -15,6 +16,7 @@ export const Header = () => {
 const [state, setState] = useState(false);
 const [showProfile,setShowProfile] = useState(false)
 const context = useContext(AuthContext)
+const navigate = useNavigate()
   const { LogOut } = Auth()
 
   const handleAuth = () => {
@@ -25,9 +27,9 @@ const context = useContext(AuthContext)
     <div className="Header">
     <img src={Logo} alt="travLog-logo" />
     <div className="center">
-        <h1>Home</h1>
+        <h1 onClick={() => navigate('/')}>Home</h1>
         <h1>Stories</h1>
-        <h1>Blogs</h1>
+        <h1 onClick={() => navigate('/blogs')}>Blogs</h1>
         <h1> Travellers </h1>
     </div>
     <Icon id="Profile-button" icon="gg:profile" onClick={() => setShowProfile(!showProfile)}/> 
@@ -51,12 +53,6 @@ const context = useContext(AuthContext)
         )}
       {state && <Login recievedState={handleAuth} />}
       </AnimatePresence>
-
-      {/* <button onClick={handleAuth}>Login</button>
-      <AnimatePresence>
-      {state && <Login recievedState={handleAuth} />}
-      </AnimatePresence>
-      <button onClick={() => LogOut()}>LOG OUT</button> */}
     </div>
   );
 };

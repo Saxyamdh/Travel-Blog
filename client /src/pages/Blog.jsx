@@ -1,6 +1,17 @@
+import { useEffect, useState } from 'react'
+import { Header } from '../components/Header'
+import '../assets/css/Blogs.scss'
+import { Filter } from '../components/Blog/Blogfilter';
+import { BlogRight } from '../components/Blog/BlogRight';
 
 
-export const Blog = () => {
+export const Blogs = () => {
 
-    return <h1>Blogs</h1>
+    return <>
+            <Header />
+            <div className='blogs'>
+                <Filter />
+                <BlogRight />
+            </div>
+        </>;
 }

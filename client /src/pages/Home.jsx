@@ -27,9 +27,9 @@ export const HomePage = () => {
     };
   }, []);
 
-  return (
+  return <>
+    <Header />
     <div className="Home">
-      <Header />
      <div className="container">
      <motion.h1
         id="homeh1"
@@ -41,7 +41,7 @@ export const HomePage = () => {
         {textToDisplay}
       </motion.h1>
      </div>
-     
     </div>
-  );
+    <h1>Popular Categories</h1>
+    </>;
 };

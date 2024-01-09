@@ -2,9 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { HomePage } from "./pages/Home"
 import { AuthConTextProvider } from "./context&routes/AuthContext"
 import { PrivateRoutes } from "./context&routes/PrivateRoutes"
-import { Blog } from "./pages/Blog"
+import {  Blogs } from "./pages/Blog"
 
 function App() {
+  
 
   return (
     <AuthConTextProvider>
@@ -13,7 +14,7 @@ function App() {
         <Route path="/" element= {<HomePage />} />
         <Route path = "/blogs" element = {
           <PrivateRoutes>
-            <Blog />
+            <Blogs />
           </PrivateRoutes>
         } />
       </Routes>
