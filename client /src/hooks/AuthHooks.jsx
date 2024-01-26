@@ -36,10 +36,12 @@ export const Auth = () => {
 
         try{
             const response = await axios.post("http://127.0.0.1:3000/register",{
-                FirstName:input.FirstName,
-                LastName:input.LastName,
-                email:input.email,
+                firstName:input.firstName,
+                lastName:input.lastName,
+                age:input.age,
+                gender: input.gender,
                 userName:input.userName,
+                email:input.email,
                 password:input.password
             })
             if(response.status === 200){
@@ -51,13 +53,20 @@ export const Auth = () => {
             setError(error)
         }
     }
-
+    const Verification = async (input) => {
+        try{
+            const response =  await axios.post("http://127.0.0.1:3000/auth/verify")
+        }catch(error){
+            console.log("Verification Error",error)
+            setError(error)
+        }
+    }
 
 
     const LogOut = async () => {
         dispatch({type: "LOGOUT"})
     }
 
-    return {error,Login,LogOut,Register}
+    return {error,Login,LogOut,Register,Verification}
 
 }

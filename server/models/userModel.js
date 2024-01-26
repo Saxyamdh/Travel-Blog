@@ -31,6 +31,22 @@ const UserSchema = new Schema({
     type: String,
     require: true,
   },
+  age: {
+    type: Number,
+    required: true,
+  },
+  gender: {
+    type: String,
+    required: true,
+  },
+  verifictionCode: {
+    type: Number,
+    required: true,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
   date: {
     type: Date,
     default: Date.now,

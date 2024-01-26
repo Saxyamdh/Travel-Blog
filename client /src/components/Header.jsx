@@ -6,7 +6,6 @@ import '../assets/css/Header.scss'
 import Logo from '../assets/images/Logo.png'
 import { Icon } from '@iconify/react';
 import { AuthContext } from "../context&routes/AuthContext";
-import '../assets/css/login.css'
 import { useNavigate } from "react-router-dom";
 
 
@@ -17,6 +16,7 @@ const [state, setState] = useState(false);
 const [showProfile,setShowProfile] = useState(false)
 const context = useContext(AuthContext)
 const navigate = useNavigate()
+const authRoute = useNavigate()
   const { LogOut } = Auth()
 
   const handleAuth = () => {
@@ -46,7 +46,7 @@ const navigate = useNavigate()
               <button onClick={() => LogOut()}>Sign Out</button>
               ):
               (
-                <button onClick={handleAuth}>Sign In</button>
+                <button onClick={() => authRoute("/auth/login")}>Sign In</button>
               )
               }
           </motion.div>

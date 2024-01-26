@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,700&family=Inter:wght@300&family=Lato:wght@300;400&family=Merriweather:wght@700&family=Montserrat:wght@700&family=Open+Sans&family=Roboto&family=Spline+Sans+Mono&family=Wix+Madefor+Display&display=swap');
+$font-name: Inter;
+
+.Login-Page {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  p{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    font-family: $font-name;
+    font-size: 1.1rem;
+    u{
+      color: #FF8300;
+      cursor: pointer;
+    }
+    u:hover{
+      color: #636381;
+      transition: ease-in-out 0.5s;
+    }
+  }
+}
+
+.Login-Form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  width: 90%;
+  height: 100%;
+
+  label {
+    margin-bottom: 10px;
+    font-family: $font-name;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bar {
+    width: 85%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: $font-name;
+  }
+  .login-button {
+    width: 87%;
+    height:2%;  
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: $font-name;
+    transition: ease-in-out 0.5s;
+    background: orange;
+    color: #636381;
+  }
+  .login-button:hover{
+    color: orange;
+    background-color: #636381;
+    font-weight:bolder;
+  }
+  
+}
+
+.Image {
+  width: 50%;
+  // padding-left: 5%;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}

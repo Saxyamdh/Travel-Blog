@@ -14,13 +14,12 @@ const dbConnect = async () => {
         useNewUrlParser: true,
       })
       .then((con) => {
-        console.log(con.connections);
+        // console.log(con.connections);
         console.log("Database connection successfull");
       });
   } catch (err) {
-    console.log("Connection to database failed");
     console.log(err);
-   
+    console.log("Connection to database failed");
   }
 };
 
