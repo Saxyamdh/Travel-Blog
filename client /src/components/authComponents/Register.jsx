@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { Progress } from './Progress';
 import img from '../../assets/images/login.svg'
@@ -35,7 +36,7 @@ export const Register = () => {
                     type="text" 
                     placeholder='First Name'
                     name='firstName'
-                    value={input.name}
+                    value={input.firstName}
                     onChange={handleChange}
                     className='bar'
                     />
@@ -43,7 +44,7 @@ export const Register = () => {
                     type="text" 
                     placeholder='Last Name'
                     name='lastName'
-                    value={input.name}
+                    value={input.lastName}
                     onChange={handleChange}
                     className='bar'
                     />
@@ -52,7 +53,7 @@ export const Register = () => {
                     type="text" 
                     placeholder='age'
                     name='age'
-                    value={input.name}
+                    value={input.age}
                     onChange={handleChange}
                     className='bar'
                     />
@@ -99,7 +100,7 @@ export const Register = () => {
                 type="text" 
                 placeholder='userName'
                 name='userName'
-                value={input.name}
+                value={input.userName}
                 onChange={handleChange}
                 className='bar'
                 />
@@ -107,7 +108,7 @@ export const Register = () => {
                 type="email" 
                 placeholder='email@gmail.com'
                 name='email'
-                value={input.name}
+                value={input.email}
                 onChange={handleChange}
                 className='bar'
                 />
@@ -115,7 +116,7 @@ export const Register = () => {
                 type="password" 
                 placeholder='Password'
                 name='password'
-                value={input.name}
+                value={input.password}
                 onChange={handleChange}
                 className='bar'
                 />
@@ -131,7 +132,7 @@ export const Register = () => {
                 type="text" 
                 placeholder='   #####'
                 name='verificationCode'
-                value={input.name}
+                value={input.verificationCode}
                 onChange={handleChange}
                 className='bar'
                 />

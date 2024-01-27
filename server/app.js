@@ -5,6 +5,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const registerRoute = require("./routes/AUthRoute");
 const bodyParser = require("body-parser");
+const { error } = require("console");
+const errorHandler = require("./middleware/errorhandler");
 
 const app = express();
 dotenv.config({ path: "config.env" });
@@ -23,5 +25,6 @@ app.use(
 app.use(bodyParser.json());
 
 app.use("/", registerRoute);
+app.use(errorHandler)
 
 module.exports = app;

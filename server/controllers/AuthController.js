@@ -1,38 +1,45 @@
 const User = require("../models/userModel");
+const { validateRegister } = require("../middleware/validation/validator");
+const AppError = require("../middleware/appError");
+const sendEmail = require("../middleware/validation/mailer");
 
-//Register Controller
+const generateUniqueCode = () => {
+  return Math.floor(10000 + Math.random() * 90000);
+};
+
 const Register = async (req, res) => {
-  const { FirstName, LastName, userName, email, password } = req.body;
-
-  try {
-    const user = await User.Register(
-      FirstName,
-      LastName,
-      userName,
-      email,
-      password
-    );
-    const UserName = user.userName;
-    const token = await user.generateAuthToken(user._id);
-    res.status(200).json({ UserName, token });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json({ error: error.message });
+  const errors = validateRegister(req.body);
+  if (errors === false) {
+    throw new AppError(process.env.INVALIDENTRY, "Check your Field Entry", 409);
   }
+  const { FirstName, LastName, Age, Gender, userName, email, password } =
+    req.body;
+  var verification_code = generateUniqueCode();
+  await sendEmail(email, verification_code);
+  const user = await User.Register(
+    FirstName,
+    LastName,
+    Age,
+    Gender,
+    userName,
+    email,
+    password,
+    verification_code
+  );
+  return res.status(200).json(`Verification Code sent at ${email}`);
 };
 
-//Login Controller
-const LogIn = async (req, res) => {
-  const { email, password } = req.body;
-  console.log("Login  Request");
-  try {
-    const user = await User.LogIn(email, password);
-    const UserName = user.userName;
-    const token = await user.generateAuthToken(user._id);
-    res.status(200).json({ UserName, token });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+const Verify = async (req, res) => {
+  const { VerificationCode } = req.body;
+  const user = await User.findOne({ verification_code: VerificationCode });
+  if (!user) {
+    throw new AppError(process.env.UNSUCCESS, "Code doesn't match", 400);
   }
+  user.verified = true;
+  user.verification_code = null;
+  await user.save();
+  const token = await user.generateAuthToken(user._id);
+  return res.status(200).json({ UserName: user.user_name, token });
 };
 
-module.exports = { Register, LogIn };
+module.exports = { Register, Verify };
