@@ -4,70 +4,42 @@ const sendEmail = async (email, code) => {
   try {
     const transporter = mailer.createTransport({
       host: "smtp-mail.outlook.com",
-      service: process.env.SERVICE,
+      port: 587,
+      secure: false,
+      requireTLS: true,
       auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWORD,
       },
+      from: process.env.EMAIL,
+      tls: {
+        ciphers: 'SSLv3',
+      },
     });
-    transporter .verify() .then(() =>{
-        console.log("Hotmail Authentication successfull")
-    })
+
+    transporter.verify().then(() => {
+      console.log("Hotmail Authentication successful");
+    });
+
     await transporter.sendMail({
-        from: process.env.EMAIL,
-        to: email,
-        subject: process.env.SUBJECT,
-        html: `
+      from: process.env.EMAIL,
+      to: email,
+      subject: process.env.SUBJECT,
+      text: `Your verification code is: ${code}`, // Plain text version
+      html: `
         <!DOCTYPE html>
         <html lang="en">
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>
-            body {
-              font-family: 'Arial', sans-serif;
-              background-color: #f4f4f4;
-              color: #333;
-              margin: 0;
-              padding: 20px;
-            }
-    
-            .container {
-              max-width: 600px;
-              margin: 0 auto;
-              background-color: #fff;
-              padding: 20px;
-              border-radius: 8px;
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-    
-            h1 {
-              color: #007BFF;
-            }
-    
-            p {
-              margin-bottom: 20px;
-            }
-    
-            .verification-code {
-              background-color: rgba(255, 195, 0, 0.64);;
-              color: #000;
-              padding: 10px;
-              font-size: 18px;
-              border-radius: 4px;
-            }
-    
-            footer {
-              margin-top: 20px;
-              text-align: center;
-              color: #888;
-            }
+            /* Your CSS styles here */
           </style>
         </head>
         <body>
           <div class="container">
-            <h1>Welcome to TravelBud!</h1>
-            <p>Thank you for choosing for being our <b>Bud</b>. We're thrilled to have you on board.</p>
+            <h1>Welcome to TravelBlog!</h1>
+            <p>Thank you for choosing to be our Bud. We're thrilled to have you on board.</p>
             <p>Your verification code is: <span class="verification-code">${code}</span></p>
             <p>Enter this code to complete the registration process.</p>
           </div>
@@ -77,11 +49,12 @@ const sendEmail = async (email, code) => {
         </body>
         </html>
       `,
-        });
-        console.log("Email sent successfully");
-    
+    });
+
+    console.log("Email sent successfully");
   } catch (error) {
-    return error;
+    console.log(error);
+    throw error;
   }
 };
 

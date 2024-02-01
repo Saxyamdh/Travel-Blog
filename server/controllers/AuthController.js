@@ -12,20 +12,21 @@ const Register = async (req, res) => {
   if (errors === false) {
     throw new AppError(process.env.INVALIDENTRY, "Check your Field Entry", 409);
   }
-  const { FirstName, LastName, Age, Gender, userName, email, password } =
+  const { firstName, lastName, age, gender, userName, email, password } =
     req.body;
   var verification_code = generateUniqueCode();
   await sendEmail(email, verification_code);
   const user = await User.Register(
-    FirstName,
-    LastName,
-    Age,
-    Gender,
+    firstName,
+    lastName,
+    age,
+    gender,
     userName,
     email,
     password,
     verification_code
   );
+
   return res.status(200).json(`Verification Code sent at ${email}`);
 };
 
@@ -42,4 +43,13 @@ const Verify = async (req, res) => {
   return res.status(200).json({ UserName: user.user_name, token });
 };
 
-module.exports = { Register, Verify };
+const LogIn = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.Login(email, password);
+  if (!user.verified) {
+    throw AppError(process.env.UNAUTHORIZED, "User Not Verified", 400);
+  }
+  const token = await user.generateAuthToken(user._id);
+  return res.status(200).json({ UserName: user.user_name, token });
+};
+module.exports = { Register, Verify, LogIn };

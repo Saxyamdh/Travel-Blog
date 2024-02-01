@@ -14,12 +14,13 @@ export const Register = () => {
         userName: "",
         email: "" ,
         password: "",
-        verificationCode: "",
     });
+    const [verificationCode,setVerificationCode] = useState("")
     const [currentStep,setCurrentStep] = useState(1);
     const login = useNavigate()
-    console.log(input.gender)
-    const {error,Register,Verification} = Auth()
+    const {Register,Verification,error} = Auth()
+
+
     const handleChange = (e) => {
         setInput((prev) => ({...prev,[e.target.name]:e.target.value})) ;
     }
@@ -27,6 +28,29 @@ export const Register = () => {
     const handleRadioChange = (e) => {
         setInput((prev) => ({ ...prev, gender: e.target.value }));
       };
+
+
+    const handleSubmit = async () => {
+      try{
+        await Register(input, error);
+        setCurrentStep(currentStep+1);
+      
+    }catch(error){
+    alert(error.response.data.errorMessage) 
+    }     
+    }
+
+
+    const handleVerification = async () => {
+        try{
+            await Verification(verificationCode, error);
+            setCurrentStep(currentStep+1);
+          
+        }catch(error){
+        alert(error.response.data.errorMessage) 
+        } 
+    }
+
 
     const renderStepContent = () => {
         switch(currentStep){
@@ -64,8 +88,8 @@ export const Register = () => {
                      <input
                      type="radio"
                     name="gender"
-                    value="male"
-                    checked={input.gender === "male"}
+                    value="Male"
+                    checked={input.gender === "Male"}
                     onChange={handleRadioChange}
                     />
                     Male
@@ -74,8 +98,8 @@ export const Register = () => {
                     <input
                     type="radio"
                     name="gender"
-                    value="female"
-                    checked={input.gender === "female"}
+                    value="Female"
+                    checked={input.gender === "Female"}
                     onChange={handleRadioChange}
                     />
                     Female
@@ -84,8 +108,8 @@ export const Register = () => {
                     <input
                     type="radio"
                     name="gender"
-                    value="others"
-                    checked={input.gender === "others"}
+                    value="Others"
+                    checked={input.gender === "Others"}
                     onChange={handleRadioChange}
                     />
                     Others
@@ -122,7 +146,7 @@ export const Register = () => {
                 />
                 <div className='buttons'>
                 <button onClick={() => setCurrentStep(currentStep-1)}>Previous</button>
-                <button onClick={() => setCurrentStep(currentStep+1)}>Next</button>
+                <button onClick={handleSubmit} >Next</button>
                 </div>
             </div>
             case 3:
@@ -132,21 +156,30 @@ export const Register = () => {
                 type="text" 
                 placeholder='   #####'
                 name='verificationCode'
-                value={input.verificationCode}
-                onChange={handleChange}
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
                 className='bar'
                 />
                 <div className='buttons'>
                 <button onClick={() => setCurrentStep(currentStep-1)}>Previous</button>
-                <button onClick={() => setCurrentStep(currentStep+1)}>Submit</button>
+                <button onClick={handleVerification}>Submit</button>
                 </div>
             </div>
+
+            case 4 :    
+            return <div className='Register-form'>
+                <button onClick={() => login('/')}>Skip</button>
+            </div>
         }
-    }
+            
+    }   
+
+
+
 
     return <div className='Login-page'>
          <div className='Image'>
-            <img src={img} alt="image-login" className="loginimage"/>
+            <img src={img} alt="image-login" className="loginimage" onClick={() => login("/")}/>
            </div>
            <div className='form'>
            <h1>Create Your Account</h1>

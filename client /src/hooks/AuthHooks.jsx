@@ -2,40 +2,29 @@
 import { useContext, useState } from "react"
 import { AuthContext } from "../context&routes/AuthContext"
 import axios from 'axios'
-import { json } from "react-router-dom"
+import { json, useNavigate } from "react-router-dom"
 
 
 
 export const Auth = () => {
-    const [error,setError] = useState(null)
     const { dispatch } = useContext(AuthContext)
-
-    const Login = async (input) => {
-        setError(null)
-
-        try {
-            const response = await axios.post("http://127.0.0.1:3000/login", {
+    const navigate = useNavigate()
+    const [error,setError] = useState(null)
+    const Login = async (input,error ={}) => {
+            const response = await axios.post("http://127.0.0.1:3000/auth/login", {
                 email:input.email,
                 password:input.password
             })
             if(response.status === 200){
                 const {data} =response
                 dispatch({type: "LOGIN", payload:data})
-                window.location.reload()
             }
             
-        }catch (error){
-            console.log("Error",error)
-            setError(error)
-        }
-        
     }
 
-    const Register = async (input) =>{
-        setError(null)
-
-        try{
-            const response = await axios.post("http://127.0.0.1:3000/register",{
+    const Register = async (input, error = {}) =>{
+            //when doing it in cloud put the dotconfig in the url
+            const response = await axios.post("http://127.0.0.1:3000/auth/register",{
                 firstName:input.firstName,
                 lastName:input.lastName,
                 age:input.age,
@@ -46,19 +35,19 @@ export const Auth = () => {
             })
             if(response.status === 200){
                 const {data} =response
+            }
+        }
+    const Verification = async (input,error = {}) => {
+        try{
+            const response =  await axios.post("http://127.0.0.1:3000/auth/register/verify",{
+                VerificationCode : input
+            })
+            if(response.status === 200){
+                const {data} = response
                 dispatch({type: "LOGIN", payload:data})
             }
-        }catch (error){
-            console.log(error)
-            setError(error)
-        }
-    }
-    const Verification = async (input) => {
-        try{
-            const response =  await axios.post("http://127.0.0.1:3000/auth/verify")
         }catch(error){
             console.log("Verification Error",error)
-            setError(error)
         }
     }
 
@@ -67,6 +56,6 @@ export const Auth = () => {
         dispatch({type: "LOGOUT"})
     }
 
-    return {error,Login,LogOut,Register,Verification}
+    return {Login,LogOut,Register,Verification}
 
 }

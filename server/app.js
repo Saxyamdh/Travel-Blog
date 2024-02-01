@@ -24,7 +24,7 @@ app.use(
 
 app.use(bodyParser.json());
 
-app.use("/", registerRoute);
+app.use("/auth", registerRoute);
 app.use(errorHandler)
 
 module.exports = app;

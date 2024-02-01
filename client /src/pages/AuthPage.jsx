@@ -13,15 +13,20 @@ export const Login = () => {
         password: ""
     })
     const register = useNavigate()
-    const { Login } = Auth()
+    const { Login,error } = Auth()
 
     const handleChange = (e) => {
         setInput((prev) => ({...prev, [e.target.name]:e.target.value}))
     }
 
     const handleSubmit = async (e) => {
+        try{
         e.preventDefault()
-        await Login(input)
+        await Login(input,error);
+        register('/')
+        }catch(error){
+            alert(error.response.data.errorMessage)
+        }
     }
 
     return <div className="Login-Page">
@@ -54,7 +59,7 @@ export const Login = () => {
                <p>Don&apos;t have an Account? <u onClick={() => register("/auth/register")}>Create One</u></p>
         </div>
         <div className="Image">
-        <img src={img} alt="image-login" className="loginimage"/>
+        <img src={img} alt="image-login" className="loginimage" onClick={() => register('/')}/>
         </div>
     </div>
 }

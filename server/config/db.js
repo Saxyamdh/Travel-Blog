@@ -18,7 +18,6 @@ const dbConnect = async () => {
         console.log("Database connection successfull");
       });
   } catch (err) {
-    console.log(err);
     console.log("Connection to database failed");
   }
 };

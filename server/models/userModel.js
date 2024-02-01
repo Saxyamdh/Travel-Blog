@@ -1,20 +1,3 @@
-// //Login schema
-// UserSchema.statics.LogIn = async function (email, password) {
-//   const user = await this.findOne({ email });
-
-//   if (!user) {
-//     throw Error("No users registered with the email");
-//   }
-
-//   const match = await bcrypt.compare(password, user.password);
-
-//   if (!match) {
-//     throw Error("Invalid login credentials");
-//   }
-
-//   return user;
-// };
-
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -63,7 +46,6 @@ const UserSchema = new Schema({
   },
   phone_Number: {
     type: Number,
-    unique: true,
     required: false,
     default: null,
   },
@@ -92,18 +74,6 @@ UserSchema.statics.Register = async function (
   }
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-  console.log(
-    first_name,
-    last_name,
-    age,
-    gender,
-    user_name,
-    email,
-    password,
-    hash,
-    phone_number,
-    verification_code
-  );
   const user = await this.create({
     first_name,
     last_name,
@@ -127,6 +97,27 @@ UserSchema.methods.generateAuthToken = async function () {
   } catch (error) {
     return error;
   }
+};
+
+UserSchema.statics.Login = async function (email, password) {
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw new AppError(
+      process.env.INVALIDENTRY,
+      "Invalid User name or password",
+      400
+    );
+  }
+
+  const match = bcrypt.compare(password, user.password);
+  if (!match) {
+    throw new AppError(
+      process.env.INVALIDENTRY,
+      "Invalid User name or password",
+      400
+    );
+  }
+  return user;
 };
 
 const User = mongoose.model("users", UserSchema);
