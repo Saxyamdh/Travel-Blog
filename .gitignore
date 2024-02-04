@@ -7,12 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Ignore config.env
+config.env
+
+# Ignore .env files
 .env
+*.local
+
+# Ignore build and compiled output
 node_modules
 dist
 dist-ssr
-.env
-*.local
 
 # Editor directories and files
 .vscode/*

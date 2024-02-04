@@ -4,23 +4,29 @@ http = require("http");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const registerRoute = require("./routes/AUthRoute");
-const bodyParser = require('body-parser');
-
+const blogroutes = require("./routes/blogRoutes");
+const bodyParser = require("body-parser");
+const { error } = require("console");
+const errorHandler = require("./middleware/errorhandler");
 
 const app = express();
-dotenv.config({ path: "server/config.env" });
+dotenv.config({ path: "config.env" });
+app.options("*", cors());
+app.use(morgan("combined"));
 
-//cors
 app.use(
   cors({
     origin: process.env.ORIGIN,
     methods: process.env.METHODS,
     credentials: true,
+    allowedHeaders: ["X-Requested-With", "content-type"],
   })
 );
+
 app.use(bodyParser.json());
 
-//routes
-app.use("/", registerRoute);
+app.use("/auth", registerRoute);
+app.use("/blogs",blogroutes);
+app.use(errorHandler);
 
 module.exports = app;

@@ -1,21 +1,17 @@
-import { useState } from "react";
-import { Login } from "../components/Login";
-import { AnimatePresence } from "framer-motion";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment,useEffect, useState, useMemo } from "react";
+import { Header } from "../components/Header";
+import { HomeComponent } from "../components/homeComponent/HomeComponent";
+
+import {  motion } from "framer-motion";
+import '../assets/css/Home.scss';
 
 export const HomePage = () => {
-  const [state, setState] = useState(false);
 
-  const handleAuth = () => {
-    setState(!state);
-  };
 
-  return (
-    <div>
-      <h1>Home Page</h1>
-      <button onClick={handleAuth}>Login</button>
-      <AnimatePresence>
-      {state && <Login recievedState={handleAuth} />}
-      </AnimatePresence>
-    </div>
-  );
+  return <>
+    <Header />
+    <HomeComponent />
+   
+    </>;
 };

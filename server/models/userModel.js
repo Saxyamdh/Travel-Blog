@@ -1,94 +1,123 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
-const Validator = require("validator");
-const isEmpty = require("../middleware/validation/is-empty");
+const AppError = require("../middleware/appError");
 
-dotenv.config({ path: "server/config.env" });
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  FirstName: {
+  first_name: {
     type: String,
     required: true,
   },
-  LastName: {
+  last_name: {
     type: String,
     required: true,
   },
-  userName: {
+  age: {
+    type: Number,
+    required: true,
+  },
+  gender: {
     type: String,
-    require: true,
+    required: false,
+  },
+  user_name: {
+    type: String,
+    required: true,
     unique: true,
   },
   email: {
     type: String,
-    require: true,
+    required: false,
     unique: true,
   },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
-  date: {
-    type: Date,
-    default: Date.now,
+  verification_code: {
+    type: Number,
+    required: false,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  phone_Number: {
+    type: Number,
+    required: false,
+    default: null,
   },
 });
 
+//User Register system
+
 UserSchema.statics.Register = async function (
-  FirstName,
-  LastName,
-  userName,
+  first_name,
+  last_name,
+  age,
+  gender,
+  user_name,
   email,
-  password
+  password,
+  verification_code,
+  phone_number
 ) {
-
-  const exists = await this.findOne({ email, userName });
-
-  if (exists) {
-    throw Error("Email already in use");
+  const emailExists = await this.findOne({ email });
+  const userNameExists = await this.findOne({ user_name });
+  if (emailExists) {
+    throw new AppError(process.env.DUPLICATE, "Email already exists", 400);
   }
-
-  // const IsEmpty = await isEmpty({
-  //   FirstName,
-  //   LastName,
-  //   userName,
-  //   email,
-  //   password,
-  // });
-  // console.log("Yeta", IsEmpty);
-  // if (IsEmpty) {
-  //   throw Error("Fill all the required details");
-  // }
-
-  //default value is 10 and the higher the number the longer it takes for the user to sign in
+  if (userNameExists) {
+    throw new AppError(process.env.DUPLICATE, "UserName already exists", 400);
+  }
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
-
   const user = await this.create({
-    FirstName,
-    LastName,
-    userName,
+    first_name,
+    last_name,
+    age,
+    gender,
+    user_name,
     email,
     password: hash,
+    verification_code,
   });
-
   return user;
 };
 
-UserSchema.methods.generateAuthToklen = function () {
-  try{
+//generating jwt token for users
+UserSchema.methods.generateAuthToken = async function () {
+  try {
     const token = jwt.sign({ _id: this.id }, process.env.JWTPRIVATEKEY, {
       expiresIn: "7d",
     });
-    console.log("JWT token: ", token);
     return token;
-  }catch(err){
-    console.log(err)
-    throw Error ("Error message",err)
+  } catch (error) {
+    return error;
   }
+};
+
+UserSchema.statics.Login = async function (email, password) {
+  const user = await this.findOne({ email });
+  if (!user) {
+    throw new AppError(
+      process.env.INVALIDENTRY,
+      "Invalid User name or password",
+      400
+    );
+  }
+
+  const match = bcrypt.compare(password, user.password);
+  if (!match) {
+    throw new AppError(
+      process.env.INVALIDENTRY,
+      "Invalid User name or password",
+      400
+    );
+  }
+  return user;
 };
 
 const User = mongoose.model("users", UserSchema);
