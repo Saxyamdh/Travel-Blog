@@ -15,9 +15,6 @@ export const PrivateRoutes = ( {children} ) => {
             navigate('/')
             alert('Please login to access the route')
         }
-        if (state.token !== null){
-            navigate('/')
-        }
     }, [state.token, navigate])
 
     return <> { children } </>

@@ -4,6 +4,7 @@ http = require("http");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const registerRoute = require("./routes/AUthRoute");
+const blogroutes = require("./routes/blogRoutes");
 const bodyParser = require("body-parser");
 const { error } = require("console");
 const errorHandler = require("./middleware/errorhandler");
@@ -25,6 +26,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.use("/auth", registerRoute);
-app.use(errorHandler)
+app.use("/blogs",blogroutes);
+app.use(errorHandler);
 
 module.exports = app;
