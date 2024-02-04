@@ -25,7 +25,7 @@ const authRoute = useNavigate()
   
   return (
     <div className="Header">
-    <img src={Logo} alt="travLog-logo" />
+    <img src={Logo} alt="travLog-logo" onClick={() => navigate('/')}/>
     <div className="center">
         <h1 onClick={() => navigate('/')}>Home</h1>
         <h1>Stories</h1>
@@ -41,7 +41,7 @@ const authRoute = useNavigate()
           transition={{delay:0.2, ease: 'easeInOut'}}
           exit={{y:-20, opacity:0.2, transition:{delay:0.2, ease:'easeInOut'}}}
           className={`profile-dropdown ${showProfile ? 'clicked' : ''}`}>
-              <button>Settings</button>
+              <button>Profile</button>
               {context.token !== null ? (
               <button onClick={() => LogOut()}>Sign Out</button>
               ):
