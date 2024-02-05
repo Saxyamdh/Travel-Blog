@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,700&family=Inter:wght@300;600&family=Lato&family=Merriweather:wght@700&family=Open+Sans&family=Roboto&family=Spline+Sans+Mono&display=swap');
+
+$font-name: 'Spline Sans Mono', monospace;
+
+
+.Header{
+
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0;
+    padding: 0;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: rgba(153, 148, 148, 0.5);
+    img{
+        width: 10% ;
+        height: 10%;
+        fill: #FFF;
+        cursor: pointer;
+    }
+    .center{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 35%;
+        align-items: center;
+    }
+    h1 {
+        color: #525050;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 24px;
+        position: relative; 
+        cursor: pointer; 
+        transition: color 0.5s; 
+        font: 1.5rem $font-name;
+      }
+        
+      h1::after {
+        content: ""; 
+        position: absolute;
+        bottom: -10px; 
+        left: 0;
+        width: 0; 
+        height: 2px; 
+        background-color: #525050;
+        transition: width 0.5s; 
+      }
+          
+     h1:hover::after {
+        width: 100%; 
+      }
+      
+     
+    #Profile-button{
+        height: 2rem;
+        width: 2rem;
+        color: #525050;
+        transition: ease-in-out 0.5s;
+        cursor: pointer;
+    }
+     #Profile-button:hover{
+      color: rgb(0, 0, 0);
+      transition: ease-in-out 0.5s;
+     }
+     .profile-dropdown{
+      display: none;
+     }
+     .profile-dropdown.clicked{
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 15.5%; 
+      right: 5%; 
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      width: 13vw;
+      height: 10rem;
+      background-color: rgba(51, 51, 51, 0.2);
+      button{
+        height: 50%;
+        background-color: rgba(51, 51, 51, 0.2);
+        font: 1.1rem $font-name;
+        color: #fff;
+        transition: ease-in-out 0.5s;
+      }
+      button:hover{
+        background-color: rgba(51, 51, 51, 0.7);
+        transition: ease-in-out 0.5s;
+      }
+     }
+}
